@@ -3,7 +3,9 @@ kind: Vegeta
 metadata:
   labels:
     controller-tools.k8s.io: "1.0"
-  name: vegeta-sample
+  name: distributed-vegeta-example
 spec:
-  # Add fields here
-  foo: bar
+  # here is the cmd-line vegeta
+  attack: echo "GET http://localhost/" | vegeta attack -duration=5s
+  # here is the number of attack performed. Default is one
+  numAttack: 2

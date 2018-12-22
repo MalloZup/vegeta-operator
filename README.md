@@ -11,18 +11,13 @@ I have implemented a first design architecture. If you are interested, look at h
 
 # Quickstart:
 
-0) Install the CRDs into the cluster
+1) Deploy vegeta controller in the configured Kubernetes cluster in ~/.kube/config ( you can use kind for dev env.)
+`make deploy`
 
-make install
+2) Perform a vegeta attack in distributed manner.
+`kubectl apply -f config/samples/vegeta_v1beta1_vegeta.yaml`
 
-1) Run the command locally against the remote cluster.
-
-make run
-
-2) In a new terminal - create an instance and expect the Controller to pick it up
-
-kubectl apply -f config/samples/*.yaml
-
+( NOTE: You will create resources, but it will have **no effect** since the controller is on WIP).
 
 # Development:
 
