@@ -21,7 +21,7 @@ import (
 	"log"
 	"reflect"
 
-	shipsv1beta1 "github.com/MalloZup/vegeta-operator/pkg/apis/ships/v1beta1"
+	vegetav1beta1 "github.com/MalloZup/vegeta-operator/pkg/apis/vegeta/v1beta1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -44,7 +44,7 @@ import (
 
 // Add creates a new Vegeta Controller and adds it to the Manager with default RBAC. The Manager will set fields on the Controller
 // and Start it when the Manager is Started.
-// USER ACTION REQUIRED: update cmd/manager/main.go to call this ships.Add(mgr) to install this Controller
+// USER ACTION REQUIRED: update cmd/manager/main.go to call this vegeta.Add(mgr) to install this Controller
 func Add(mgr manager.Manager) error {
 	return add(mgr, newReconciler(mgr))
 }
@@ -63,7 +63,7 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 	}
 
 	// Watch for changes to Vegeta
-	err = c.Watch(&source.Kind{Type: &shipsv1beta1.Vegeta{}}, &handler.EnqueueRequestForObject{})
+	err = c.Watch(&source.Kind{Type: &vegetav1beta1.Vegeta{}}, &handler.EnqueueRequestForObject{})
 	if err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 	// Uncomment watch a Deployment created by Vegeta - change this for objects you create
 	err = c.Watch(&source.Kind{Type: &appsv1.Deployment{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
-		OwnerType:    &shipsv1beta1.Vegeta{},
+		OwnerType:    &vegetav1beta1.Vegeta{},
 	})
 	if err != nil {
 		return err
@@ -95,10 +95,10 @@ type ReconcileVegeta struct {
 // a Deployment as an example
 // Automatically generate RBAC rules to allow the Controller to read and write Deployments
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=ships.k8s.io,resources=vegeta,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=vegeta.k8s.io,resources=vegeta,verbs=get;list;watch;create;update;patch;delete
 func (r *ReconcileVegeta) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	// Fetch the Vegeta instance
-	instance := &shipsv1beta1.Vegeta{}
+	instance := &vegetav1beta1.Vegeta{}
 	err := r.Get(context.TODO(), request.NamespacedName, instance)
 	if err != nil {
 		if errors.IsNotFound(err) {
