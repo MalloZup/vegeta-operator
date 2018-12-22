@@ -1,0 +1,53 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: vegeta.vegeta.k8s.io
+spec:
+  group: vegeta.k8s.io
+  names:
+    kind: Vegeta
+    plural: vegeta
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            attack:
+              description: Attack contains the options for vegeta CLI/lib attack
+              type: string
+            numAttack:
+              description: numAttack, with this you can run e.g. 3 times attack
+              format: int32
+              type: integer
+          type: object
+        status:
+          properties:
+            countAttack:
+              description: CountAttack will count how many attack the same type are
+                running
+              format: int32
+              type: integer
+          type: object
+  version: v1beta1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
